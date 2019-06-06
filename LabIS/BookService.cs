@@ -24,5 +24,17 @@ namespace LabIS
             book.Pages = pages;
             this.booksRepository.Add(book);
         }
+
+        public IEnumerable<TakeBook> GetTakeBooksFromDate(DateTime date)
+        {
+            return booksRepository.Context.GetTakenBooksFromDate(date).Select(x => booksRepository.Context.TakeBooks.Find(x.UserId, x.BookId));
+        }
+
+        public IEnumerable<TakeBook> GetTekenBooks()
+        {
+            return this.booksRepository.GetTakeBook(); 
+        }
+
+
     }
 }

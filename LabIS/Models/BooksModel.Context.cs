@@ -12,6 +12,8 @@ namespace LabIS.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class BooksEntities : DbContext
     {
@@ -28,5 +30,15 @@ namespace LabIS.Models
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<TakeBook> TakeBooks { get; set; }
         public virtual DbSet<User> Users { get; set; }
+    
+        public virtual ObjectResult<GetTakenBooksFromDate_Result> GetTakenBooksFromDate(Nullable<System.DateTime> date)
+        {
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTakenBooksFromDate_Result>("GetTakenBooksFromDate", dateParameter);
+        }
+      
     }
 }

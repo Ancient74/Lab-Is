@@ -9,6 +9,9 @@ namespace LabIS
     public class BooksRepository : IRepository<Book>
     {
         BooksEntities context = new BooksEntities();
+
+        public BooksEntities Context => context;
+
         public void Add(Book data)
         {
             context.Books.Add(data);
@@ -20,6 +23,12 @@ namespace LabIS
             context.Books.Remove(context.Books.Find(id));
             context.SaveChanges();
         }
+
+        public IEnumerable<TakeBook> GetTakeBook()
+        {
+            return this.context.TakeBooks;
+        }
+
 
         public Book Read(int id)
         {
